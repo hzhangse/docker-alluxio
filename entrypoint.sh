@@ -69,7 +69,7 @@ for keyvaluepair in $(env); do
   fi
 done
 # start nfs 
-echo '/alluxio-fuse *(rw,sync,no_subtree_check,fsid=0,no_root_squash)'>> /etc/exports
+
 mkdir -p /run/sendsigs.omit.d/
 exportfs -r
 service rpcbind start
