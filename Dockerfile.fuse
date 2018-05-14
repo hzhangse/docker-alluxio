@@ -50,8 +50,8 @@ RUN /opt/alluxio/bin/alluxio formatMaster
 
 #RUN apt-get update && apt-get install -y portmap&& mkdir -p /run/sendsigs.omit.d && dpkg-reconfigure portmap&&/etc/init.d/rpcbind restart 
 #RUN /etc/init.d/nfs-kernel-server restart
-RUN service rpcbind start
+#RUN service rpcbind start
 #最后启动nfs服务
-RUN service nfs-kernel-server start
-RUN echo '/alluxio-fuse *(rw,sync,no_subtree_check,fsid=0,no_root_squash)'>> /etc/exports
+#RUN service nfs-kernel-server start
+#RUN echo '/alluxio-fuse *(rw,sync,no_subtree_check,fsid=0,no_root_squash)'>> /etc/exports
 ENTRYPOINT ["/entrypoint.sh"]
