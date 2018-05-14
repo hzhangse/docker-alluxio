@@ -68,6 +68,11 @@ for keyvaluepair in $(env); do
     fi
   fi
 done
+RUN echo '/alluxio-fuse *(rw,sync,no_subtree_check,fsid=0,no_root_squash)'>> /etc/exports
+RUN service rpcbind start
+#最后启动nfs服务
+RUN service nfs-kernel-server start
+RUN exportfs -r
 
 if [ "$ENABLE_FUSE" = true ]; then
   integration/fuse/bin/alluxio-fuse mount /alluxio-fuse /
