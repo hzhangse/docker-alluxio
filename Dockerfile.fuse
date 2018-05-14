@@ -39,6 +39,7 @@ RUN cd /opt && \
 
 COPY conf /opt/alluxio/conf/
 COPY entrypoint.sh /
+RUN chmod a+x /entrypoint.sh
 RUN /opt/alluxio/bin/alluxio formatMaster
 RUN echo '/exports *(rw,sync,no_root_squash,no_subtree_check)' >> /etc/exports
 
