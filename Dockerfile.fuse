@@ -53,5 +53,5 @@ RUN /opt/alluxio/bin/alluxio formatMaster
 #RUN service rpcbind start
 #最后启动nfs服务
 #RUN service nfs-kernel-server start
-RUN echo '/alluxio-fuse 192.168.1.0/24(rw,sync,no_subtree_check,no_root_squash)'>> /etc/exports
+RUN echo '/alluxio-fuse 192.168.1.0/24(rw,sync,no_subtree_check,no_root_squash,insecure)'>> /etc/exports
 ENTRYPOINT ["/entrypoint.sh"]
