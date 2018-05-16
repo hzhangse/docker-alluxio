@@ -8,10 +8,10 @@
 #
 # See the NOTICE file distributed with this work for information regarding copyright ownership.
 #
-FROM registry.cn-hangzhou.aliyuncs.com/rainbow954/ubuntu-tools
-#FROM ubuntu
+#FROM registry.cn-hangzhou.aliyuncs.com/rainbow954/ubuntu-tools
+FROM ubuntu
 ENV DEBIAN_FRONTEND noninteractive
-RUN apt-get update -qq && apt-get install -y nfs-kernel-server runit inotify-tools -qq
+RUN apt-get update -qq && apt-get install -y nfs-kernel-server runit inotify-tools  net-tools iputils-ping vim -qq
 RUN mkdir -p /exports
 
 VOLUME /exports
