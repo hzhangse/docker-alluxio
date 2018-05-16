@@ -1,0 +1,88 @@
+version: '3'
+services:
+  alluxio-fuse-master:
+    image: registry.cn-hangzhou.aliyuncs.com/rainbow954/alluxio-fuse-1.7:1.7.1  
+    container_name: alluxio-fuse-master
+    hostname: alluxio-fuse-master
+    privileged: true 
+    cap_add:  
+        - SYS_ADMIN
+    devices: 
+        - /dev/fuse
+    environment:
+      - ENABLE_FUSE=false
+      - ALLUXIO_MASTER_HOSTNAME=172.19.0.111
+      - ALLUXIO_UNDERFS_ADDRESS=/underStorage 
+      - ALLUXIO_USER_FILE_READTYPE_DEFAULT=CACHE_PROMOTE 
+      - ALLUXIO_USER_FILE_WRITETYPE_DEFAULT=CACHE_THROUGH 
+    
+    volumes:
+      - log-master:/opt/alluxio/logs/
+      - alluxio-fs:/underStorage 
+    networks:
+       ngnet:
+          ipv4_address: 172.19.0.111
+    command: master
+
+  alluxio-worker0:
+    image: registry.cn-hangzhou.aliyuncs.com/rainbow954/alluxio-1.7:1.7.1
+    container_name: alluxio-work0
+    hostname: alluxio-work0
+    environment:
+      - ALLUXIO_MASTER_HOSTNAME=172.19.0.111
+      - ALLUXIO_RAM_FOLDER=/opt/ramdisk 
+      - ALLUXIO_WORKER_MEMORY_SIZE=1GB 
+      - ALLUXIO_UNDERFS_ADDRESS=/underStorage 
+    
+    volumes:
+      - ramdisk-fs:/opt/ramdisk
+      - alluxio-fs:/underStorage 
+    networks:
+       ngnet:
+          ipv4_address: 172.19.0.112
+    command: worker
+
+  alluxio-worker1:
+    image: registry.cn-hangzhou.aliyuncs.com/rainbow954/alluxio-1.7:1.7.1
+    container_name: alluxio-work1
+    hostname: alluxio-work1
+    environment:
+      - ALLUXIO_MASTER_HOSTNAME=172.19.0.111
+      - ALLUXIO_RAM_FOLDER=/opt/ramdisk 
+      - ALLUXIO_WORKER_MEMORY_SIZE=1GB 
+      - ALLUXIO_UNDERFS_ADDRESS=/underStorage 
+    
+    volumes:
+      - ramdisk-fs:/opt/ramdisk
+      - alluxio-fs:/underStorage 
+    networks:
+       ngnet:
+          ipv4_address: 172.19.0.113
+    command: worker
+
+   
+volumes:
+  alluxio-fs:
+    driver: local
+    driver_opts:
+         type: none
+         device: /mnt/alluxio 
+         o: bind
+
+  log-master:
+    driver: local
+    driver_opts:
+         type: none
+         device: /var/log/tidecloud/alluxio/log-master
+         o: bind
+  ramdisk-fs:
+    driver: local
+    driver_opts:
+         type: none
+         device: /mnt/ramdisk
+         o: bind
+
+networks:
+  ngnet:
+    external:
+      name: shadownet
