@@ -8,8 +8,8 @@
 #
 # See the NOTICE file distributed with this work for information regarding copyright ownership.
 #
-#FROM registry.cn-hangzhou.aliyuncs.com/rainbow954/ubuntu-tools
-FROM ubuntu
+FROM registry.cn-hangzhou.aliyuncs.com/rainbow954/ubuntu-tools
+#FROM ubuntu
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update -qq && apt-get install -y nfs-kernel-server runit inotify-tools -qq
 RUN mkdir -p /exports
@@ -53,5 +53,5 @@ RUN /opt/alluxio/bin/alluxio formatMaster
 #RUN service rpcbind start
 #最后启动nfs服务
 #RUN service nfs-kernel-server start
-RUN echo '/alluxio-fuse 192.168.1.0/24(rw,sync,no_subtree_check,no_root_squash,insecure)'>> /etc/exports
+RUN echo '/alluxio-fuse *(rw,sync,no_subtree_check,no_root_squash,insecure)'>> /etc/exports
 ENTRYPOINT ["/entrypoint.sh"]
